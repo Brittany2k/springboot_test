@@ -21,16 +21,18 @@ public class ApplicationTest {
     private MockMvc mockMvc;
 
     @Test
-    void testHistory() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api?post_input_text=testing"));
-        mockMvc.perform(MockMvcRequestBuilders.get("/history").contentType(MediaType.ALL)).
-                andExpect(content().string(containsString("testing")));
+    void test1() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/delete?post_input_text=testing"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/delete?post_text=testing").contentType(MediaType.ALL)).
+                andExpect(content().string(containsString("does not exist")));
     }
 
     @Test
-    void testHistory2() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api?post_input_text=testingAgain"));
-        mockMvc.perform(MockMvcRequestBuilders.get("/history").contentType(MediaType.ALL)).
-                andExpect(content().string(containsString("testingAgain")));
+    void testcaseSens() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/delete?post_input_text=testing"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/delete?post_text=Testing").contentType(MediaType.ALL)).
+                andExpect(content().string(containsString("does not exist")));
     }
+
+
 }
