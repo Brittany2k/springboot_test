@@ -22,16 +22,21 @@ public class ApplicationTest {
 
     @Test
     void test1() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/delete?post_input_text=testing"));
-        mockMvc.perform(MockMvcRequestBuilders.get("/delete?post_text=testing").contentType(MediaType.ALL)).
-                andExpect(content().string(containsString("does not exist")));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api?post_input_text=yesSir")).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/history").contentType(MediaType.ALL))
+                .andExpect(content().string(containsString("yesSir")));
+        mockMvc.perform(MockMvcRequestBuilders.post("/delete?post_text=yesSir")).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/history").contentType(MediaType.ALL))
+                .andExpect(content().string((containsString(""))));
     }
 
     @Test
     void testcaseSens() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/delete?post_input_text=testing"));
-        mockMvc.perform(MockMvcRequestBuilders.get("/delete?post_text=Testing").contentType(MediaType.ALL)).
-                andExpect(content().string(containsString("does not exist")));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api?post_input_text=yesMam")).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.delete("/delete?post_text=yesmam")).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/history").contentType(MediaType.ALL))
+                .andExpect(content().string((containsString("yesMam"))));
     }
 
 
